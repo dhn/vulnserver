@@ -18,6 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #define VERSION "1.00"
 
+
 void EssentialFunc1() {
 	printf ("Called essential function dll version %s\n", VERSION);
 }
@@ -115,4 +116,30 @@ void EssentialFunc13(char *Input) {
 void EssentialFunc14(char *Input) {
 	char Buffer2S[1000];
 	strcpy(Buffer2S, Input);
+}
+
+/* Add gadgets/functions for the ROP chain */
+void ROP() {
+	VirtualProtect();
+
+	__asm__("pop %eax\n\t"
+		"ret\n\t"
+		"neg %eax\n\t"
+		"ret\n\t"
+		"xchg %eax, %edx\n\t"
+		"ret\n\t"
+		"xchg %eax, %ebx\n\t"
+		"ret\n\t"
+		"pushal\n\t"
+		"ret\n\t"
+		"xchg %eax, %ebp\n\t"
+		"ret\n\t"
+		"sub %eax, %ecx\n\t"
+		"ret\n\t"
+		"mov (%eax), %eax\n\t"
+		"ret\n\t"
+		"push %eax\n\t"
+		"pop %esi\n\t"
+		"ret\n\t"
+		);
 }
